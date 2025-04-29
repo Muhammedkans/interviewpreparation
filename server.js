@@ -8,22 +8,31 @@ const connectDB = require("./database/database");
 const Product = require("../my-app/models/Product");
 const Productrouter = require('./router/productRouter');
 const miniProductRouter = require('./router/miniProduct');
+const userRouter = require('./router/userRouter');
 const app = express();
+const cors = require("cors");
 
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 const port = process.env.PORT;
 
+
 app.use("/",router);
 app.use("/",Productrouter);
 app.use("/",miniProductRouter);
-
+app.use("/",userRouter);
 
 
 
 app.use((err, req, res,next) => {
-  console.error(err.message);
-  res.status(504).send('Page Not Found');
+  ;
+  console.error("Global Error:", err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
+  
 });
 
 
