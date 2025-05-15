@@ -11,11 +11,13 @@ const userauthSchema = new mongoose.Schema({
     type:String,
     required:[true,"please provide an email"],
     unique:true,
+    match: [/^\S+@\S+\.\S+$/, "Please enter a valid email address!"],
   },
   password:{
     type:String,
     required: [true,"please provide a password"],
     minLength:[6, "please password  must be atleaset 6 character "],
+    
   }
 });
 
@@ -29,6 +31,11 @@ const userauthSchema = new mongoose.Schema({
   next();
  });
 
+
+ userauthSchema.post("save", function(doc, next) {
+  console.log(`New user ${doc.name} saved!`);
+  next();
+});
 
 
  userauthSchema.methods.comparePassword = async function (enteredPassword) {
