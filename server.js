@@ -36,6 +36,12 @@ app.use((err, req, res,next) => {
 });
 
 
+app.post("/order", (req, res) => {
+  const { item } = req.body;
+  if (!item) return res.status(400).json({ message: "Item required" });
+
+  return res.status(200).json({ message: `Order placed for ${item}` });
+});
 
 
 connectDB().then(()=>{
@@ -47,6 +53,8 @@ connectDB().then(()=>{
 .catch((err)=>{
 console.error( "database connection fail" ,err.message);
 })
+
+module.exports = app;
 
 
 
